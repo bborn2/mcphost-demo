@@ -20,7 +20,7 @@ class MCPClient:
         self.session: Optional[ClientSession] = None
         self.exit_stack = AsyncExitStack()
          
-        self.openai  = OpenAI(api_key="sk-562f0468d78b4860bb850318a2223d9d", base_url="https://api.deepseek.com")
+        self.openai  = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
 
 
     async def connect_to_server(self, server_script_path: str):
@@ -106,10 +106,15 @@ class MCPClient:
             result = await self.session.call_tool(tool_name, tool_args)
             tool_results.append({"call": tool_name, "result": result})
             final_text.append(f"[调用工具 {tool_name}，参数 {tool_args}]")
+            
+            print(result.content[0])
            
             tool = response.choices[0].message.tool_calls[0]
+
             messages.append(response.choices[0].message)
             messages.append({"role": "tool", "tool_call_id": tool.id, "content": result.content[0].text})
+            
+            print(messages)
           
             response = self.openai.chat.completions.create(
                 model="deepseek-chat",

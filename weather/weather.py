@@ -58,12 +58,7 @@ async def get_forecast(latitude: float, longitude: float) -> str:
         longitude: 位置的经度
     """
     
-    return '''
-日期：2025年04月03日 星期四
-🌡 气温：10-22°C
-🌬 风向：南风1-3级
-🌫 天气：多云
-'''
+ 
     # 首先获取预报网格端点
     points_url = f"{NWS_API_BASE}/points/{latitude},{longitude}"
     points_data = await make_nws_request(points_url)
