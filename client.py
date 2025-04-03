@@ -107,7 +107,7 @@ class MCPClient:
             tool_results.append({"call": tool_name, "result": result})
             final_text.append(f"[调用工具 {tool_name}，参数 {tool_args}]")
             
-            print(result.content[0])
+            # print(result.content[0])
            
             tool = response.choices[0].message.tool_calls[0]
 
