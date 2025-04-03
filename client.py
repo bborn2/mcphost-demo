@@ -80,7 +80,7 @@ class MCPClient:
             stream=False,
             tools=tools
         )
-        print(response)
+        # print(response)
 
         # 处理响应和工具调用
         tool_results = []
@@ -107,14 +107,15 @@ class MCPClient:
             tool_results.append({"call": tool_name, "result": result})
             final_text.append(f"[调用工具 {tool_name}，参数 {tool_args}]")
             
-            # print(result.content[0])
-           
             tool = response.choices[0].message.tool_calls[0]
+            
+            funcMessage = response.choices[0].message
+            funcMessage.tool_calls = funcMessage.tool_calls[0:1]
 
-            messages.append(response.choices[0].message)
+            messages.append(funcMessage)
             messages.append({"role": "tool", "tool_call_id": tool.id, "content": result.content[0].text})
             
-            print(messages)
+            # print(messages)
           
             response = self.openai.chat.completions.create(
                 model="deepseek-chat",
