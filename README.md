@@ -10,58 +10,45 @@ uv venv
 source .venv/bin/activate
 ```
 
-### run server
+### run 
 ```
-uv run weather.py
-```
-
-### run client
-```
-uv run client.py ./weather/weather.py
+uv run client.py mcpserver-weather.py
 ```
 
 ### example
-
 ```
-[调用工具 get_alerts，参数 {'state': 'TX'}]
-Here are the current weather alerts for Texas:
+query: ca forecast
+```
+``` 
 
-### **Flood Alerts** ⚠️🌧️
-1. **Flood Watch** (Severe)  
-   - **Areas**: Fannin, Lamar, Hunt, Delta, Hopkins, Rains  
-   - **Details**: 3-5 inches of rain (isolated up to 8 inches). Flooding possible in low-lying areas.  
-   - **Time**: Late tonight through Sunday morning.  
+[调用工具 get_forecast，参数 {'latitude': 36.7783, 'longitude': -119.4179}]
+Here’s the current weather forecast for California (based on coordinates near the state's center):
 
-2. **Flood Warnings** (Severe)  
-   - **Attoyac Bayou near Chireno** (Nacogdoches, Rusk, San Augustine, Shelby) – Minor flooding until Sunday.  
-   - **Angelina River near Lufkin** (Angelina, Cherokee, Nacogdoches) – Minor flooding ongoing.  
-   - **Cowleech Fork Sabine River at Greenville** (Hunt) – Minor flooding expected, cresting tonight.  
-   - **Sabine River near Deweyville** (Newton, Orange, Beauregard, Calcasieu) – Minor flooding ongoing.  
-   - **Sulphur River near Talco** (Franklin, Morris, Red River, Titus) – Flooding expected Saturday.  
+### **Today**  
+☀️ **Sunny**  
+- **High:** 62°F  
+- **Wind:** 0-5 mph (WSW)  
 
-3. **Flood Advisory** (Minor)  
-   - **Jack County** – Urban/small stream flooding due to heavy rain until 10:45 AM CDT.  
+### **Tonight**  
+🌤️ **Mostly Clear**  
+- **Low:** 42°F  
+- **Wind:** 5 mph (NE)  
 
----
+### **Friday**  
+☀️ **Sunny**  
+- **High:** 68°F  
+- **Wind:** 5 mph (SSE)  
 
-### **Wind Advisories** 💨  
-- **Coastal & Inland Cameron/Willacy**: Gusts up to **50 mph** (until 5 PM CDT).  
-- **Southeast Texas (Harris, Galveston, etc.)**: Gusts up to **30-35 mph**.  
-- **Impact**: Unsecured objects may blow around, difficult driving for high-profile vehicles.  
+### **Friday Night**  
+🌙 **Clear**  
+- **Low:** 45°F  
+- **Wind:** 5 mph (NNE)  
 
----
+### **Saturday**  
+☀️ **Sunny & Warmer**  
+- **High:** 73°F  
+- **Wind:** 5 mph (W)  
 
-### **Coastal & Beach Hazards** 🌊  
-- **Coastal Flood Advisory**: Minor flooding in Cameron, Jefferson, and Orange Counties.  
-- **High Surf & Rip Currents**: Dangerous waves (5-7 ft) along Gulf-facing beaches.  
-- **Beach Hazards**: High risk of rip currents (Galveston, Bolivar Peninsula).  
+*Note: This is a general forecast; conditions may vary by region (e.g., coastal, inland, mountainous). Let me know if you'd like details for a specific city!*
 
----
-
-### **Key Recommendations**  
-- **Avoid flooded roads** – "Turn around, don’t drown."  
-- **Secure outdoor items** due to strong winds.  
-- **Stay out of Gulf waters** due to rip currents.  
-
-For real-time updates, check the [National Weather Service](https://www.weather.gov). Stay safe!
 ```
