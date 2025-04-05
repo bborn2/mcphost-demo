@@ -6,6 +6,7 @@ from contextlib import AsyncExitStack
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
+from mcp.client.sse import sse_client
 
 from openai import OpenAI
 
@@ -13,15 +14,35 @@ from dotenv import load_dotenv
 
 load_dotenv()  # 从 .env 加载环境变量
 api_key = os.getenv("DEEPSEEK_API_KEY")
+amap_key = os.getenv("AMAP_KEY")
 
 class MCPClient:
     def __init__(self):
         # 初始化会话和客户端对象
         self.session: Optional[ClientSession] = None
         self.exit_stack = AsyncExitStack()
+        self.tools = None
          
         self.openai  = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
 
+    async def connect_to_sse(self):
+        sse_url = "https://mcp.amap.com/sse?key=amap_key"
+        
+        self._streams_context = sse_client(url=sse_url)
+        streams = await self._streams_context.__aenter__()
+
+        self._session_context = ClientSession(*streams)
+        self.session: ClientSession = await self._session_context.__aenter__()
+
+        # Initialize
+        await self.session.initialize()
+
+        # List available tools to verify connection
+        print("Initialized SSE client...")
+        print("Listing tools...")
+        response = await self.session.list_tools()
+        tools = response.tools
+        print("\nConnected to server with tools:", [tool.name for tool in tools])
 
     async def connect_to_server(self, server_script_path: str):
         """连接到 MCP 服务器
@@ -148,16 +169,24 @@ class MCPClient:
     async def cleanup(self):
         """清理资源"""
         await self.exit_stack.aclose()
+        
+        if self._session_context:
+            await self._session_context.__aexit__(None, None, None)
+        if self._streams_context:
+            await self._streams_context.__aexit__(None, None, None)
 
 
 async def main():
-    if len(sys.argv) < 2:
-        print("用法: python client.py <服务器脚本路径>")
-        sys.exit(1)
-
+    sse = True
+    if len(sys.argv) == 2:
+        sse = False
+        
     client = MCPClient()
     try:
-        await client.connect_to_server(sys.argv[1])
+        if sse:
+            await client.connect_to_sse()
+        else:
+            await client.connect_to_server(sys.argv[1])
         await client.chat_loop()
     finally:
         await client.cleanup()
