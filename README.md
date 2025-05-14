@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/bborn2-mcphost-demo-badge.png)](https://mseep.ai/app/bborn2-mcphost-demo)
+
 ## MCP Demo
 mcp host demo, include mcp client and mcp server(sse and stdio). 
 
